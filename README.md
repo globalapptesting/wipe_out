@@ -1,6 +1,27 @@
 # WipeOut
-
 Library for removing and clearing data using ActiveRecord.
+
+## Releasing new version
+
+1. Update `VERSION` in `lib/wipe-out/version.rb`.
+   * when introducing bug-fixes or small additions please increase the patch version
+   * otherwise when introducing breaking changes increase either major or minor version, depending on the scale
+1. Merge to `master` branch.
+1. Create a new tag called `vX.Y.Z` where X, Y and Z are major, minor and patch versions.
+1. In a Gemfile of an application that uses WipeOut use tag reference as the `ref`, e.g.:
+    ```ruby
+    gem "wipe-out",  git: "git@gitlab.gatserver.com:global-app-testing/apps/wipe-out.git", ref: "4.0.0" 
+    ```
+
+## Installation
+
+1. Add WipeOut to your application's Gemfile:
+
+    ```ruby
+    gem "wipe-out",  git: "git@gitlab.gatserver.com:global-app-testing/apps/wipe-out.git", ref: "VERSION_TAG" 
+    ```
+
+## Usage
 
 Removal strategy definition is called _Plan_. _Plan_ is created using DSL.
 Top level _Plan_ is called _Root Plan_ and can be validated against database schema
@@ -317,3 +338,6 @@ end
 
 Similarly to Plugins, when _Root Plan_ with config override is nested inside other _Root Plan_ (see "Reusing plans")
 then its custom configuration is ignored.
+
+## License
+The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
