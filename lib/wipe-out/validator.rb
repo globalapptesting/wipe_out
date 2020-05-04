@@ -3,9 +3,7 @@ module WipeOut
     method_object :plan, :ar_class, [:errors, :config!]
 
     def call
-      unless plan.destroy?
-        errors.concat Validators::Attributes.call(plan, ar_class, config)
-      end
+      errors.concat Validators::Attributes.call(plan, ar_class, config) unless plan.destroy?
       errors.concat Validators::Relations.call(plan, ar_class, config)
 
       validate_nested

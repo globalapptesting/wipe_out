@@ -9,9 +9,7 @@ module WipeOut
 
     def establish_execution_plan(record)
       plan = @selector.call(record)
-      unless @plans.include?(plan)
-        raise "Plan #{plan} is not listed in #{@plans}"
-      end
+      raise "Plan #{plan} is not listed in #{@plans}" unless @plans.include?(plan)
 
       plan
     end

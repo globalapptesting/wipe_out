@@ -11,7 +11,7 @@ module WipeOut
     def execute_around(plugins, &block)
       current_plugin, *rest = plugins
       if current_plugin.nil?
-        block.call
+        yield
       else
         current_plugin.send(callback_name, *arguments) do
           execute_around(rest, &block)

@@ -15,7 +15,7 @@ require_relative "wipe-out/root_plan"
 require_relative "wipe-out/root_plan_dsl"
 require_relative "wipe-out/validator"
 require_relative "wipe-out/validators/attributes"
-require_relative 'wipe-out/validators/relations'
+require_relative "wipe-out/validators/relations"
 
 module WipeOut
   class << self

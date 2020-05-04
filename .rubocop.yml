@@ -1,0 +1,3 @@
+inherit_gem:
+  gat_rubocop_config:
+    - .rubocop.yml

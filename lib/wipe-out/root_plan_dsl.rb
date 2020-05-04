@@ -19,12 +19,12 @@ module WipeOut
       end
     end
 
-    def config(&block)
+    def config
       config = root_plan.config.dup
       yield config
       @root_plan.config = config
     end
 
-    alias plugin plugins
+    alias_method :plugin, :plugins
   end
 end

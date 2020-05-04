@@ -2586,3 +2586,147 @@
   [1m[35m (1.6ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
   [1m[36mActiveRecord::InternalMetadata Load (1.4ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
   [1m[35m (3.2ms)[0m  [1m[34mSELECT pg_advisory_unlock(4319277208986004125)[0m
+  [1m[35m (118.9ms)[0m  [1m[35mDROP DATABASE IF EXISTS "wipe_out_test"[0m
+  [1m[35m (256.0ms)[0m  [1m[35mCREATE DATABASE "wipe_out_test" ENCODING = 'unicode'[0m
+  [1m[35m (1.4ms)[0m  [1m[35mDROP TABLE IF EXISTS "users" CASCADE[0m
+  [1m[35m (5.7ms)[0m  [1m[35mCREATE TABLE "users" ("id" bigserial primary key, "first_name" character varying, "last_name" character varying, "reset_password_token" character varying, "access_tokens" character varying, "confirmed_at" timestamp, "sign_in_count" integer)[0m
+  [1m[35m (1.3ms)[0m  [1m[35mDROP TABLE IF EXISTS "comments" CASCADE[0m
+  [1m[35m (4.3ms)[0m  [1m[35mCREATE TABLE "comments" ("id" bigserial primary key, "user_id" integer, "value" character varying)[0m
+  [1m[35m (1.4ms)[0m  [1m[35mDROP TABLE IF EXISTS "resource_files" CASCADE[0m
+  [1m[35m (3.1ms)[0m  [1m[35mCREATE TABLE "resource_files" ("id" bigserial primary key, "comment_id" integer)[0m
+  [1m[35m (1.2ms)[0m  [1m[35mDROP TABLE IF EXISTS "dashboards" CASCADE[0m
+  [1m[35m (3.9ms)[0m  [1m[35mCREATE TABLE "dashboards" ("id" bigserial primary key, "user_id" integer, "order" character varying)[0m
+  [1m[35m (3.7ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" character varying NOT NULL PRIMARY KEY, "value" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[36mActiveRecord::InternalMetadata Load (1.3ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (2.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mActiveRecord::InternalMetadata Create (1.9ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "key"[0m  [["key", "environment"], ["value", "test"], ["created_at", "2020-05-04 16:32:59.527299"], ["updated_at", "2020-05-04 16:32:59.527299"]]
+  [1m[35m (1.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (2.8ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" character varying NOT NULL PRIMARY KEY)[0m
+  [1m[35m (1.1ms)[0m  [1m[34mSELECT pg_try_advisory_lock(4319277208986004125)[0m
+  [1m[35m (1.6ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Load (1.7ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (1.3ms)[0m  [1m[34mSELECT pg_advisory_unlock(4319277208986004125)[0m
+  [1m[35m (2.0ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Create (2.3ms)[0m  [1m[32mINSERT INTO "users" ("first_name", "last_name", "confirmed_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["first_name", "John"], ["last_name", "Doe"], ["confirmed_at", "4713-01-01 00:00:00 BC"]]
+  [1m[36mComment Create (1.6ms)[0m  [1m[32mINSERT INTO "comments" ("user_id", "value") VALUES ($1, $2) RETURNING "id"[0m  [["user_id", 1], ["value", "Comment"]]
+  [1m[36mDashboard Create (1.6ms)[0m  [1m[32mINSERT INTO "dashboards" ("user_id", "order") VALUES ($1, $2) RETURNING "id"[0m  [["user_id", 1], ["order", "123"]]
+  [1m[35m (0.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mResourceFile Load (1.2ms)[0m  [1m[34mSELECT "resource_files".* FROM "resource_files" WHERE "resource_files"."comment_id" = $1[0m  [["comment_id", 1]]
+  [1m[35m (1.0ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mDashboard Update (1.3ms)[0m  [1m[33mUPDATE "dashboards" SET "order" = $1 WHERE "dashboards"."id" = $2[0m  [["order", nil], ["id", 1]]
+  [1m[35m (1.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (1.0ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Update (1.3ms)[0m  [1m[33mUPDATE "users" SET "first_name" = $1, "last_name" = $2, "reset_password_token" = $3, "sign_in_count" = $4 WHERE "users"."id" = $5[0m  [["first_name", "deleted-name"], ["last_name", nil], ["reset_password_token", "rest_password_123"], ["sign_in_count", 0], ["id", 1]]
+  [1m[35m (1.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (1.6ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Create (1.3ms)[0m  [1m[32mINSERT INTO "users" ("first_name", "last_name", "confirmed_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["first_name", "John"], ["last_name", "Doe"], ["confirmed_at", "4713-01-01 00:00:00 BC"]]
+  [1m[36mComment Create (1.2ms)[0m  [1m[32mINSERT INTO "comments" ("user_id", "value") VALUES ($1, $2) RETURNING "id"[0m  [["user_id", 2], ["value", "Comment"]]
+  [1m[36mDashboard Create (1.1ms)[0m  [1m[32mINSERT INTO "dashboards" ("user_id", "order") VALUES ($1, $2) RETURNING "id"[0m  [["user_id", 2], ["order", "123"]]
+  [1m[35m (1.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mResourceFile Load (1.0ms)[0m  [1m[34mSELECT "resource_files".* FROM "resource_files" WHERE "resource_files"."comment_id" = $1[0m  [["comment_id", 2]]
+  [1m[35m (1.0ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mDashboard Update (1.2ms)[0m  [1m[33mUPDATE "dashboards" SET "order" = $1 WHERE "dashboards"."id" = $2[0m  [["order", nil], ["id", 2]]
+  [1m[35m (1.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (1.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Update (3.7ms)[0m  [1m[33mUPDATE "users" SET "first_name" = $1, "last_name" = $2, "reset_password_token" = $3, "sign_in_count" = $4 WHERE "users"."id" = $5[0m  [["first_name", "deleted-name"], ["last_name", nil], ["reset_password_token", "rest_password_123"], ["sign_in_count", 0], ["id", 2]]
+  [1m[35m (1.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (1.6ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Create (1.5ms)[0m  [1m[32mINSERT INTO "users" ("first_name", "last_name", "confirmed_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["first_name", "John"], ["last_name", "Doe"], ["confirmed_at", "4713-01-01 00:00:00 BC"]]
+  [1m[36mComment Create (3.9ms)[0m  [1m[32mINSERT INTO "comments" ("user_id", "value") VALUES ($1, $2) RETURNING "id"[0m  [["user_id", 3], ["value", "Comment"]]
+  [1m[36mDashboard Create (1.6ms)[0m  [1m[32mINSERT INTO "dashboards" ("user_id", "order") VALUES ($1, $2) RETURNING "id"[0m  [["user_id", 3], ["order", "123"]]
+  [1m[35m (4.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mResourceFile Load (2.4ms)[0m  [1m[34mSELECT "resource_files".* FROM "resource_files" WHERE "resource_files"."comment_id" = $1[0m  [["comment_id", 3]]
+  [1m[35m (2.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mDashboard Update (1.3ms)[0m  [1m[33mUPDATE "dashboards" SET "order" = $1 WHERE "dashboards"."id" = $2[0m  [["order", nil], ["id", 3]]
+  [1m[35m (1.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (1.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Update (1.4ms)[0m  [1m[33mUPDATE "users" SET "first_name" = $1, "last_name" = $2, "reset_password_token" = $3, "sign_in_count" = $4 WHERE "users"."id" = $5[0m  [["first_name", "deleted-name"], ["last_name", nil], ["reset_password_token", "rest_password_123"], ["sign_in_count", 0], ["id", 3]]
+  [1m[35m (1.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (2.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Create (1.6ms)[0m  [1m[32mINSERT INTO "users" ("first_name", "last_name", "confirmed_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["first_name", "John"], ["last_name", "Doe"], ["confirmed_at", "4713-01-01 00:00:00 BC"]]
+  [1m[36mComment Create (1.9ms)[0m  [1m[32mINSERT INTO "comments" ("user_id", "value") VALUES ($1, $2) RETURNING "id"[0m  [["user_id", 4], ["value", "Comment"]]
+  [1m[36mDashboard Create (1.4ms)[0m  [1m[32mINSERT INTO "dashboards" ("user_id", "order") VALUES ($1, $2) RETURNING "id"[0m  [["user_id", 4], ["order", "123"]]
+  [1m[35m (1.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mResourceFile Load (1.2ms)[0m  [1m[34mSELECT "resource_files".* FROM "resource_files" WHERE "resource_files"."comment_id" = $1[0m  [["comment_id", 4]]
+  [1m[35m (1.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mDashboard Update (1.1ms)[0m  [1m[33mUPDATE "dashboards" SET "order" = $1 WHERE "dashboards"."id" = $2[0m  [["order", nil], ["id", 4]]
+  [1m[35m (1.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (1.7ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Update (1.3ms)[0m  [1m[33mUPDATE "users" SET "first_name" = $1, "last_name" = $2, "reset_password_token" = $3, "sign_in_count" = $4 WHERE "users"."id" = $5[0m  [["first_name", "deleted-name"], ["last_name", nil], ["reset_password_token", "rest_password_123"], ["sign_in_count", 0], ["id", 4]]
+  [1m[35m (1.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (1.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Create (1.3ms)[0m  [1m[32mINSERT INTO "users" ("first_name", "last_name", "confirmed_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["first_name", "John"], ["last_name", "Doe"], ["confirmed_at", "4713-01-01 00:00:00 BC"]]
+  [1m[36mComment Create (1.4ms)[0m  [1m[32mINSERT INTO "comments" ("user_id", "value") VALUES ($1, $2) RETURNING "id"[0m  [["user_id", 5], ["value", "Comment"]]
+  [1m[36mDashboard Create (1.2ms)[0m  [1m[32mINSERT INTO "dashboards" ("user_id", "order") VALUES ($1, $2) RETURNING "id"[0m  [["user_id", 5], ["order", "123"]]
+  [1m[35m (1.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mResourceFile Load (1.3ms)[0m  [1m[34mSELECT "resource_files".* FROM "resource_files" WHERE "resource_files"."comment_id" = $1[0m  [["comment_id", 5]]
+  [1m[35m (1.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mDashboard Update (1.2ms)[0m  [1m[33mUPDATE "dashboards" SET "order" = $1 WHERE "dashboards"."id" = $2[0m  [["order", nil], ["id", 5]]
+  [1m[35m (1.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (1.0ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Update (1.2ms)[0m  [1m[33mUPDATE "users" SET "first_name" = $1, "last_name" = $2, "reset_password_token" = $3, "sign_in_count" = $4 WHERE "users"."id" = $5[0m  [["first_name", "deleted-name"], ["last_name", nil], ["reset_password_token", "rest_password_123"], ["sign_in_count", 0], ["id", 5]]
+  [1m[35m (1.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mDashboard Load (1.4ms)[0m  [1m[34mSELECT "dashboards".* FROM "dashboards" WHERE "dashboards"."id" = $1 LIMIT $2[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[35m (1.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Create (1.2ms)[0m  [1m[32mINSERT INTO "users" ("first_name", "last_name", "confirmed_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["first_name", "John"], ["last_name", "Doe"], ["confirmed_at", "4713-01-01 00:00:00 BC"]]
+  [1m[36mComment Create (1.4ms)[0m  [1m[32mINSERT INTO "comments" ("user_id", "value") VALUES ($1, $2) RETURNING "id"[0m  [["user_id", 6], ["value", "Comment"]]
+  [1m[36mDashboard Create (1.2ms)[0m  [1m[32mINSERT INTO "dashboards" ("user_id", "order") VALUES ($1, $2) RETURNING "id"[0m  [["user_id", 6], ["order", "123"]]
+  [1m[35m (1.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mResourceFile Load (1.1ms)[0m  [1m[34mSELECT "resource_files".* FROM "resource_files" WHERE "resource_files"."comment_id" = $1[0m  [["comment_id", 6]]
+  [1m[35m (1.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mDashboard Update (1.4ms)[0m  [1m[33mUPDATE "dashboards" SET "order" = $1 WHERE "dashboards"."id" = $2[0m  [["order", nil], ["id", 6]]
+  [1m[35m (1.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (1.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Update (1.3ms)[0m  [1m[33mUPDATE "users" SET "first_name" = $1, "last_name" = $2, "reset_password_token" = $3, "sign_in_count" = $4 WHERE "users"."id" = $5[0m  [["first_name", "deleted-name"], ["last_name", nil], ["reset_password_token", "rest_password_123"], ["sign_in_count", 0], ["id", 6]]
+  [1m[35m (1.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (1.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Create (1.3ms)[0m  [1m[32mINSERT INTO "users" ("first_name", "last_name", "confirmed_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["first_name", "John"], ["last_name", "Doe"], ["confirmed_at", "4713-01-01 00:00:00 BC"]]
+  [1m[36mComment Create (1.5ms)[0m  [1m[32mINSERT INTO "comments" ("user_id", "value") VALUES ($1, $2) RETURNING "id"[0m  [["user_id", 7], ["value", "Comment"]]
+  [1m[36mDashboard Create (1.3ms)[0m  [1m[32mINSERT INTO "dashboards" ("user_id", "order") VALUES ($1, $2) RETURNING "id"[0m  [["user_id", 7], ["order", "123"]]
+  [1m[35m (1.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mUser Update (1.2ms)[0m  [1m[33mUPDATE "users" SET "confirmed_at" = $1 WHERE "users"."id" = $2[0m  [["confirmed_at", nil], ["id", 7]]
+  [1m[36mResourceFile Load (1.6ms)[0m  [1m[34mSELECT "resource_files".* FROM "resource_files" WHERE "resource_files"."comment_id" = $1[0m  [["comment_id", 7]]
+  [1m[35m (1.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mDashboard Update (1.3ms)[0m  [1m[33mUPDATE "dashboards" SET "order" = $1 WHERE "dashboards"."id" = $2[0m  [["order", nil], ["id", 7]]
+  [1m[35m (1.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (1.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Update (1.3ms)[0m  [1m[33mUPDATE "users" SET "first_name" = $1, "last_name" = $2, "reset_password_token" = $3, "sign_in_count" = $4 WHERE "users"."id" = $5[0m  [["first_name", "deleted-name"], ["last_name", nil], ["reset_password_token", "rest_password_123"], ["sign_in_count", 0], ["id", 7]]
+  [1m[35m (1.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (1.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Create (1.3ms)[0m  [1m[32mINSERT INTO "users" ("first_name", "last_name", "confirmed_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["first_name", "John"], ["last_name", "Doe"], ["confirmed_at", "4713-01-01 00:00:00 BC"]]
+  [1m[36mComment Create (1.2ms)[0m  [1m[32mINSERT INTO "comments" ("user_id", "value") VALUES ($1, $2) RETURNING "id"[0m  [["user_id", 8], ["value", "Comment"]]
+  [1m[36mDashboard Create (1.3ms)[0m  [1m[32mINSERT INTO "dashboards" ("user_id", "order") VALUES ($1, $2) RETURNING "id"[0m  [["user_id", 8], ["order", "123"]]
+  [1m[35m (1.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mUser Update (1.4ms)[0m  [1m[33mUPDATE "users" SET "confirmed_at" = $1 WHERE "users"."id" = $2[0m  [["confirmed_at", nil], ["id", 8]]
+  [1m[36mResourceFile Load (1.0ms)[0m  [1m[34mSELECT "resource_files".* FROM "resource_files" WHERE "resource_files"."comment_id" = $1[0m  [["comment_id", 8]]
+  [1m[35m (1.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mDashboard Update (1.4ms)[0m  [1m[33mUPDATE "dashboards" SET "order" = $1 WHERE "dashboards"."id" = $2[0m  [["order", nil], ["id", 8]]
+  [1m[35m (1.2ms)[0m  [1m[35mCOMMIT[0m
+[wipe-out-invalid-record] #<User id: 8, first_name: "deleted-name", last_name: nil, reset_password_token: "rest_password_123", access_tokens: nil, confirmed_at: nil, sign_in_count: 0>
+  [1m[35m (1.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Update (1.4ms)[0m  [1m[33mUPDATE "users" SET "first_name" = $1, "last_name" = $2, "reset_password_token" = $3, "sign_in_count" = $4 WHERE "users"."id" = $5[0m  [["first_name", "deleted-name"], ["last_name", nil], ["reset_password_token", "rest_password_123"], ["sign_in_count", 0], ["id", 8]]
+  [1m[35m (1.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (1.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Create (1.3ms)[0m  [1m[32mINSERT INTO "users" ("first_name", "last_name", "confirmed_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["first_name", "John"], ["last_name", "Doe"], ["confirmed_at", "4713-01-01 00:00:00 BC"]]
+  [1m[36mComment Create (1.3ms)[0m  [1m[32mINSERT INTO "comments" ("user_id", "value") VALUES ($1, $2) RETURNING "id"[0m  [["user_id", 9], ["value", "Comment"]]
+  [1m[36mDashboard Create (1.3ms)[0m  [1m[32mINSERT INTO "dashboards" ("user_id", "order") VALUES ($1, $2) RETURNING "id"[0m  [["user_id", 9], ["order", "123"]]
+  [1m[35m (1.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mResourceFile Load (1.3ms)[0m  [1m[34mSELECT "resource_files".* FROM "resource_files" WHERE "resource_files"."comment_id" = $1[0m  [["comment_id", 9]]
+  [1m[35m (0.9ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mDashboard Update (1.1ms)[0m  [1m[33mUPDATE "dashboards" SET "order" = $1 WHERE "dashboards"."id" = $2[0m  [["order", nil], ["id", 9]]
+  [1m[35m (0.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (1.0ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Update (1.3ms)[0m  [1m[33mUPDATE "users" SET "first_name" = $1, "last_name" = $2, "reset_password_token" = $3, "sign_in_count" = $4 WHERE "users"."id" = $5[0m  [["first_name", "deleted-name"], ["last_name", nil], ["reset_password_token", "rest_password_123"], ["sign_in_count", 0], ["id", 9]]
+  [1m[35m (1.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (1.0ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Create (1.6ms)[0m  [1m[32mINSERT INTO "users" ("first_name", "last_name", "confirmed_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["first_name", "John"], ["last_name", "Doe"], ["confirmed_at", "4713-01-01 00:00:00 BC"]]
+  [1m[36mComment Create (1.3ms)[0m  [1m[32mINSERT INTO "comments" ("user_id", "value") VALUES ($1, $2) RETURNING "id"[0m  [["user_id", 10], ["value", "Comment"]]
+  [1m[36mDashboard Create (1.3ms)[0m  [1m[32mINSERT INTO "dashboards" ("user_id", "order") VALUES ($1, $2) RETURNING "id"[0m  [["user_id", 10], ["order", "123"]]
+  [1m[35m (0.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mResourceFile Load (1.1ms)[0m  [1m[34mSELECT "resource_files".* FROM "resource_files" WHERE "resource_files"."comment_id" = $1[0m  [["comment_id", 10]]
+  [1m[35m (1.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mDashboard Update (1.5ms)[0m  [1m[33mUPDATE "dashboards" SET "order" = $1 WHERE "dashboards"."id" = $2[0m  [["order", nil], ["id", 10]]
+  [1m[35m (1.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (1.0ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Update (1.2ms)[0m  [1m[33mUPDATE "users" SET "first_name" = $1, "last_name" = $2, "reset_password_token" = $3, "sign_in_count" = $4 WHERE "users"."id" = $5[0m  [["first_name", "deleted-name"], ["last_name", nil], ["reset_password_token", "rest_password_123"], ["sign_in_count", 0], ["id", 10]]
+  [1m[35m (1.0ms)[0m  [1m[35mCOMMIT[0m

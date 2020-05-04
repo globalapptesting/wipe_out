@@ -1,4 +1,4 @@
-  module WipeOut
+module WipeOut
   class RootPlan
     def initialize(ar_class)
       @plan = Plan.new
