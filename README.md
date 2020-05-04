@@ -27,9 +27,8 @@ create_table "comments" do |t|
   t.string "value"
 end
 
-create_table "files" do |t|
+create_table "resource_files" do |t|
   t.integer "comment_id"
-  t.integer "file_id"
 end
 
 create_table "dashboards" do |t|
@@ -46,10 +45,10 @@ class User < ActiveRecord::Base
 end
 
 class Comment < ActiveRecord::Base
-  has_many :files
+  has_many :resource_files
 end
 
-class File < ActiveRecord::Base; end
+class ResourceFile < ActiveRecord::Base; end
 class Dashboard < ActiveRecord::Base; end
 ```
 
@@ -58,27 +57,27 @@ an example of _Root Plan_ and its _Plan_ is:
 ```ruby
 UserWipeOutPlan = WipeOut.build_root_plan(User) do
    # Set nil value by default
-   attributes :first_name, :last_name
+   wipe_out :first_name, :last_name
    # Custom strategy
-   attributes :sign_in_count, strategy: WipeOut::AttributeStrategies::ConstValue.new(0)
+   wipe_out :sign_in_count, strategy: WipeOut::AttributeStrategies::ConstValue.new(0)
    # Inline custom strategy
-   attributes :reset_password_token do
+   wipe_out :reset_password_token do
      "random-value-#{SecureRandom.hex}"
    end
 
    # has_many relation
    relation :comments do
      # Behaves like nested Plan.
-     attribute :value, strategy: WipeOut::AttributeStrategies::Randomize.new
+     wipe_out :value, strategy: WipeOut::AttributeStrategies::Randomize.new
 
-     relation :files do
+     relation :resource_files do
        destroy! # Calls destroy on records
      end
    end
 
    # has_one relation
    relation :dashboard do
-      attribute :order
+      wipe_out :order
       ignore :name
    end
 
@@ -102,7 +101,7 @@ User's:
 
 User's Comments:
 * `value` is randomized
-* Comment's files are all destroyed
+* Comment's resource_files are all destroyed
 
 User's dashboard:
 * `order` attribute is set to `nil`
@@ -151,7 +150,7 @@ class User < ActiveRecord::Base
   belongs_to :company
   has_many :comments
   has_one :dashboard
-  has_many :files, through: :comments
+  has_many :resource_files, through: :comments
 end
 ```
 
@@ -167,7 +166,7 @@ a _Plan_ to handle removing of this object has to provide strategy or ignore:
 _Plan_ can skip providing strategy for:
 * attributes `id`, `created_at`, `updated_at` - ignored by default
 * relation `company` - `belongs_to` relation
-* relation `files` - through relation
+* relation `resource_files` - through relation
 
 ## Reusing _Plans_
 
@@ -176,16 +175,16 @@ _Plan_ can skip providing strategy for:
 Nested plans can be extracted as independent object. An exemplary plan can be rewritten to:
 ```ruby
 CommentsWipeOutPlan = WipeOut.build_root_plan(Comment) do
-  attribute :value, strategy: WipeOut::AttributeStrategies::Randomize.new
+  wipe_out :value, strategy: WipeOut::AttributeStrategies::Randomize.new
 
-  relation :files do
+  relation :resource_files do
    destroy!
   end
 end
 
 DashboardWipeOutPlan = WipeOut.build_plan do
   relation :dashboard do
-    attribute :order
+    wipe_out :order
     ignore :name
   end
 end
@@ -262,8 +261,8 @@ UserPlan = WipeOut.build_root_plan(User) do
     ignore … # do not remove all data yetg
   end
 
-  relation(:files, plans: [vip_plan, normal_plan] do |file|
-    file.user.vip? ? vip_plan : normal_plan
+  relation(:resource_files, plans: [vip_plan, normal_plan] do |resource_file|
+    resource_file.user.vip? ? vip_plan : normal_plan
   end
 end
 ```

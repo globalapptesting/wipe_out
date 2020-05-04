@@ -1,3 +1,5 @@
+require "active_support/core_ext/module/delegation"
+
 module WipeOut
   class ExecuteRootPlan
     method_object :root_plan, :record
