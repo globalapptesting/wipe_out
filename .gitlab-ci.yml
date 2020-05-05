@@ -25,5 +25,7 @@ lint:
 
 tests:
   image: ${AWS_ECR_URL}/${IMAGE}
+  services:
+    - postgresql:11.5-alpine
   script:
     - bundle exec rspec
