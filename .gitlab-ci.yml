@@ -21,7 +21,7 @@ before_script:
 lint:
   image: ${AWS_ECR_URL}/${IMAGE}
   script:
-    - bundle exec rubocop -DS -r $(bundle show rubocop-junit-formatter)/lib/rubocop/formatter/junit_formatter.rb --format progress --format RuboCop::Formatter::JUnitFormatter --out "${CI_PROJECT_DIR}/.rubocop-xunit.xml"
+    - bundle exec rubocop -DS --require "$(bundle show rubocop-junit-formatter)/lib/rubocop/formatter/junit_formatter.rb" --format progress --format RuboCop::Formatter::JUnitFormatter --out "${CI_PROJECT_DIR}/.rubocop-xunit.xml"
   artifacts:
     reports:
       junit: ${CI_PROJECT_DIR}/.rubocop-xunit.xml
