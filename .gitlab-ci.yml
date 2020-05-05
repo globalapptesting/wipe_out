@@ -28,5 +28,6 @@ tests:
   services:
     - postgres:11.5-alpine
   script:
-    - createuser --superuser root
+    - createuser --host=127.0.0.1 --superuser root
+    - createdb --host=127.0.0.1 --owner=root wipe_out_test
     - bundle exec rspec
