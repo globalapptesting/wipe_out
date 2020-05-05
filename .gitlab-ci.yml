@@ -1,22 +1,38 @@
-rspec:
-  cache:
-    untracked: true
-    key: "$CI_PROJECT_ID"
-    paths:
-      - vendor/bundle
-    policy: pull
-  stage: test
-  image: ${AWS_ECR_URL}/${IMAGE_NAME}:${IMAGE_TAG}
-  script:
-    - bundle exec rspec
+variables:
+  IMAGE: "deployment-build-image:20200430.01"
+
+cache:
+  key:
+    files:
+      - Gemfile
+      - wipe-out.gemspec
+    prefix: v1-${CI_PROJECT_ID}
+  paths:
+  - vendor/
+
+before_script:
+  - eval $(ssh-agent -s)
+  - echo "${PRIVATE_REPO_KEY}" | tr -d '\r' | ssh-add - > /dev/null
+  - mkdir -p ~/.ssh && chmod 700 ~/.ssh && rm -f ~/.ssh/config
+  - ssh-keyscan gitlab.gatserver.com >> ~/.ssh/known_hosts && chmod 644 ~/.ssh/known_hosts
+  - export BUNDLE_PATH="$(pwd)/vendor/bundle"
+  - bundle install -j4
+
 lint:
-  cache:
-    untracked: true
-    key: "$CI_PROJECT_ID"
-    paths:
-      - vendor/bundle
-    policy: pull
-  stage: test
-  image: ${AWS_ECR_URL}/${IMAGE_NAME}:${IMAGE_TAG}
+  image: ${AWS_ECR_URL}/${IMAGE}
   script:
-    - bundle exec rubocop -DS
+    - bundle exec rubocop -DS --require "$(bundle show rubocop-junit-formatter)/lib/rubocop/formatter/junit_formatter.rb" --format progress --format RuboCop::Formatter::JUnitFormatter --out "${CI_PROJECT_DIR}/.rubocop-xunit.xml"
+  artifacts:
+    reports:
+      junit: ${CI_PROJECT_DIR}/.rubocop-xunit.xml
+    expire_in: 2 weeks
+    when: always
+
+tests:
+  image: ${AWS_ECR_URL}/${IMAGE}
+  services:
+    - postgres:11.5-alpine
+  script:
+    - createuser -U postgres --host=127.0.0.1 --superuser root
+    - createdb -U postgres --host=127.0.0.1 --owner=root wipe_out_test
+    - bundle exec rspec
