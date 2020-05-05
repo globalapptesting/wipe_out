@@ -28,7 +28,6 @@ lint:
     expire_in: 2 weeks
     when: always
 
-
 tests:
   image: ${AWS_ECR_URL}/${IMAGE}
   services:
