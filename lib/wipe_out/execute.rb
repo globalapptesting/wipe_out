@@ -29,7 +29,7 @@ module WipeOut
         if plan.destroy?
           record.destroy!
         else
-          Rails.logger.info("[wipe-out-invalid-record] #{record.inspect}") unless record.valid?
+          Rails.logger.info("[wipe_out-invalid-record] #{record.inspect}") unless record.valid?
           record.save(validate: false)
         end
       end

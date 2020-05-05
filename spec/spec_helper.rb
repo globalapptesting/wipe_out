@@ -1,4 +1,4 @@
-require_relative "../lib/wipe-out.rb"
+require_relative "../lib/wipe_out.rb"
 require "combustion"
 require "factory_bot"
 require "pg"

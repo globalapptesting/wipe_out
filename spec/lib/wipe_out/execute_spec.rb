@@ -83,7 +83,7 @@ RSpec.describe WipeOut::Execute do
     it "logs the problem" do
       allow(Rails.logger).to receive(:info)
       execute
-      expect(Rails.logger).to have_received(:info).with(start_with("[wipe-out-invalid-record]"))
+      expect(Rails.logger).to have_received(:info).with(start_with("[wipe_out-invalid-record]"))
     end
 
     it "saves record" do
