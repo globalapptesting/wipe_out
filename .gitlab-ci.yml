@@ -1,0 +1,22 @@
+rspec:
+  cache:
+    untracked: true
+    key: "$CI_PROJECT_ID"
+    paths:
+      - vendor/bundle
+    policy: pull
+  stage: test
+  image: ${AWS_ECR_URL}/${IMAGE_NAME}:${IMAGE_TAG}
+  script:
+    - bundle exec rspec
+lint:
+  cache:
+    untracked: true
+    key: "$CI_PROJECT_ID"
+    paths:
+      - vendor/bundle
+    policy: pull
+  stage: test
+  image: ${AWS_ECR_URL}/${IMAGE_NAME}:${IMAGE_TAG}
+  script:
+    - bundle exec rubocop -DS
