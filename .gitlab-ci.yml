@@ -28,4 +28,5 @@ tests:
   services:
     - postgres:11.5-alpine
   script:
+    - createuser --superuser root
     - bundle exec rspec
