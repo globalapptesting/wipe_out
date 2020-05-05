@@ -7,11 +7,13 @@ module WipeOut
         errors = []
 
         if missing_attributes.any?
-          errors << "#{ar_class.name} plan is missing attributes: #{missing_attributes.map { |name| ":#{name}" }.join(", ")}"
+          errors << "#{ar_class.name} plan is missing attributes: #{missing_attributes.map { |name| ":#{name}" }.
+            join(", ")}"
         end
 
         if non_existing_attributes.any?
-          errors << "#{ar_class.name} plan has extra attributes: #{non_existing_attributes.map { |name| ":#{name}" }.join(", ")}"
+          errors << "#{ar_class.name} plan has extra attributes: #{non_existing_attributes.map { |name| ":#{name}" }.
+            join(", ")}"
         end
 
         errors
