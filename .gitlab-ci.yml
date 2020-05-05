@@ -1,22 +1,29 @@
-rspec:
-  cache:
-    untracked: true
-    key: "$CI_PROJECT_ID"
-    paths:
-      - vendor/bundle
-    policy: pull
-  stage: test
-  image: ${AWS_ECR_URL}/${IMAGE_NAME}:${IMAGE_TAG}
-  script:
-    - bundle exec rspec
+variables:
+  IMAGE: "deployment-build-image:20200430.01"
+
+cache:
+  key:
+    files:
+      - Gemfile
+      - wipe-out.gemspec
+    prefix: v1-${CI_PROJECT_ID}
+  paths:
+  - vendor/
+
+before_script:
+  - eval $(ssh-agent -s)
+  - echo "${PRIVATE_REPO_KEY}" | tr -d '\r' | ssh-add - > /dev/null
+  - mkdir -p ~/.ssh && chmod 700 ~/.ssh && rm -f ~/.ssh/config
+  - ssh-keyscan gitlab.gatserver.com >> ~/.ssh/known_hosts && chmod 644 ~/.ssh/known_hosts
+  - export BUNDLE_PATH="$(pwd)/vendor/bundle"
+  - bundle install -j4
+
 lint:
-  cache:
-    untracked: true
-    key: "$CI_PROJECT_ID"
-    paths:
-      - vendor/bundle
-    policy: pull
-  stage: test
-  image: ${AWS_ECR_URL}/${IMAGE_NAME}:${IMAGE_TAG}
+  image: ${AWS_ECR_URL}/${IMAGE}
   script:
     - bundle exec rubocop -DS
+
+tests:
+  image: ${AWS_ECR_URL}/${IMAGE}
+  script:
+    - bundle exec rspec
