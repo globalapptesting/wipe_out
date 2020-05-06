@@ -1,0 +1,15 @@
+inherit_gem:
+  gat_rubocop_config:
+    - .rubocop.yml
+
+Metrics/MethodLength:
+  Enabled: false
+
+Metrics/AbcSize:
+  Enabled: false
+
+RSpec/ExampleLength:
+  Enabled: false
+
+RSpec/MultipleExpectations:
+  Max: 2
