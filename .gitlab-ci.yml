@@ -5,7 +5,7 @@ cache:
   key:
     files:
       - Gemfile
-      - wipe-out.gemspec
+      - wipe_out.gemspec
     prefix: v1-${CI_PROJECT_ID}
   paths:
   - vendor/
