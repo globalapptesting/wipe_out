@@ -11,6 +11,9 @@ module WipeOut
 
         plan.relations.each do |name, plan|
           relation = record.send(name)
+
+          next unless relation.present?
+
           if collection?(record, name)
             relation.each do |entity|
               execution_plan = relation_execution_plan(plan, entity)
