@@ -1,5 +1,5 @@
 variables:
-  IMAGE: "deployment-build-image:20200430.01"
+  IMAGE: "deployment-build-image:20200513.01"
 
 cache:
   key:
@@ -20,6 +20,8 @@ before_script:
 
 lint:
   image: ${AWS_ECR_URL}/${IMAGE}
+  tags:
+    - size-s
   script:
     - bundle exec rubocop -DS --require "$(bundle show rubocop-junit-formatter)/lib/rubocop/formatter/junit_formatter.rb" --format progress --format RuboCop::Formatter::JUnitFormatter --out "${CI_PROJECT_DIR}/.rubocop-xunit.xml"
   artifacts:
@@ -30,6 +32,8 @@ lint:
 
 tests:
   image: ${AWS_ECR_URL}/${IMAGE}
+  tags:
+    - size-s
   services:
     - postgres:11.5-alpine
   script:
