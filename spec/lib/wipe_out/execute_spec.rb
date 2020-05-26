@@ -1,5 +1,5 @@
 RSpec.describe WipeOut::Execute do
-  CommentsWipeOutPlan = let(:comments_plan) do
+  let(:comments_plan) do
     WipeOut.build_plan do
       relation :resource_files do
         destroy!
