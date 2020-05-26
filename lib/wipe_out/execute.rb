@@ -9,21 +9,7 @@ module WipeOut
           record.send("#{name}=", value)
         end
 
-        plan.relations.each do |name, plan|
-          relation = record.send(name)
-
-          next unless relation.present?
-
-          if collection?(record, name)
-            relation.each do |entity|
-              execution_plan = relation_execution_plan(plan, entity)
-              Execute.call(execution_plan, entity, plugins)
-            end
-          else
-            execution_plan = relation_execution_plan(plan, relation)
-            Execute.call(execution_plan, relation, plugins)
-          end
-        end
+        process_relations(plan.relations)
 
         plan.before_save_callbacks.each do |callback|
           callback.call(record)
@@ -43,6 +29,24 @@ module WipeOut
     end
 
     private
+
+    def process_relations(relations)
+      relations.each do |name, plan|
+        relation = record.send(name)
+
+        next unless relation.present?
+
+        if collection?(record, name)
+          relation.each do |entity|
+            execution_plan = relation_execution_plan(plan, entity)
+            Execute.call(execution_plan, entity, plugins)
+          end
+        else
+          execution_plan = relation_execution_plan(plan, relation)
+          Execute.call(execution_plan, relation, plugins)
+        end
+      end
+    end
 
     def relation_execution_plan(plan, record)
       if plan.is_a?(PlansUnion)
