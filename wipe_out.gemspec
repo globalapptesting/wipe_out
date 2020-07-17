@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
   s.description = "wipe_out gem"
   s.license     = "internal"
 
-  s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
+  s.files = Dir["{app,config,db,lib}/**/*", "Rakefile", "README.md"]
 
   s.add_dependency "attr_extras"
   s.add_dependency "rails"

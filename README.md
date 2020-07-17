@@ -1,25 +1,32 @@
 # WipeOut
+
+README.md follows [project-passport](https://gitlab.gatserver.com/global-app-testing/apps/project-passport)
+
 Library for removing and clearing data using ActiveRecord.
-
-## Releasing new version
-
-1. Update `VERSION` in `lib/wipe_out/version.rb`.
-   * when introducing bug-fixes or small additions please increase the patch version
-   * otherwise when introducing breaking changes increase either major or minor version, depending on the scale
-1. Merge to `master` branch.
-1. Create a new tag called `vX.Y.Z` where X, Y and Z are major, minor and patch versions.
-1. In a Gemfile of an application that uses WipeOut use tag reference as the `ref`, e.g.:
-    ```ruby
-    gem "wipe_out",  git: "git@gitlab.gatserver.com:global-app-testing/apps/wipe-out.git", ref: "4.0.0" 
-    ```
 
 ## Installation
 
 1. Add WipeOut to your application's Gemfile:
 
     ```ruby
-    gem "wipe_out",  git: "git@gitlab.gatserver.com:global-app-testing/apps/wipe-out.git", ref: "VERSION_TAG" 
+    gem "wipe_out",  git: "git@gitlab.gatserver.com:global-app-testing/apps/wipe-out.git", ref: "VERSION_TAG"
     ```
+
+Check newest release at [here](https://gitlab.gatserver.com/global-app-testing/apps/wipe_out/-/tags).
+
+### Development setup
+
+Requires:
+
+  * Ruby >+ 2.6
+  * Postgres >= 10, [configuration for tests](./spec/internal/config/database.yml)
+
+```
+bundle install
+
+# Tests
+bundle exec rspec
+```
 
 ## Usage
 
@@ -189,9 +196,9 @@ _Plan_ can skip providing strategy for:
 * relation `company` - `belongs_to` relation
 * relation `resource_files` - through relation
 
-## Reusing _Plans_
+### Reusing _Plans_
 
-### Extracting
+#### Extracting
 
 Nested plans can be extracted as independent object. An exemplary plan can be rewritten to:
 ```ruby
@@ -218,7 +225,7 @@ UserWipeOutPlan = WipeOut.build_root_plan(User) do
 end
 ```
 
-### Including
+#### Including
 
 _Plan_ can be included to other existing _Plan_. When _Plan_ is included then
 its strategy is copied and extends current definition.
@@ -256,7 +263,7 @@ WipeOut.build_root_plan(User) do
 end
 ```
 
-### Difference between _Root Plan_ and _Plan_
+#### Difference between _Root Plan_ and _Plan_
 
 _Plans_ created using `WipeOut.build_plan` are not _Root Plans_. They can be nested
 or used as a fragment for including in other _Plans_ or _Root Plans_, but
@@ -267,7 +274,7 @@ It is possible to nest _Root Plan_ inside _Root Plan_ using `relation`.
 In such case some _Root Plan_ features like Plugins, custom Configuration definitions
 are ignored.
 
-## Dynamic plan selection
+### Dynamic plan selection
 
 In some cases relation needs to have multiple _Plan_ depending on the record's state.
 The list of _Plans_ have to be known upfront to provide static validation.
@@ -288,7 +295,7 @@ UserPlan = WipeOut.build_root_plan(User) do
 end
 ```
 
-## Plugins
+### Plugins
 
 Plugins are used to define behaviours which are not supported by the
 core library.
@@ -339,5 +346,15 @@ end
 Similarly to Plugins, when _Root Plan_ with config override is nested inside other _Root Plan_ (see "Reusing plans")
 then its custom configuration is ignored.
 
-## License
-The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
+## Releasing new version
+
+1. Update `VERSION` in `lib/wipe_out/version.rb`.
+   * when introducing bug-fixes or small additions please increase the patch version
+   * otherwise when introducing breaking changes increase either major or minor version, depending on the scale
+1. Merge to `master` branch.
+1. Create a new tag called `vX.Y.Z` where X, Y and Z are major, minor and patch versions.
+1. In a Gemfile of an application that uses WipeOut use tag reference as the `ref`, e.g.:
+    ```ruby
+    gem "wipe_out",  git: "git@gitlab.gatserver.com:global-app-testing/apps/wipe-out.git", ref: "4.0.0"
+    ```
+
