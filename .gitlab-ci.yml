@@ -1,5 +1,5 @@
 variables:
-  IMAGE: "deployment-build-image:20200623.01"
+  IMAGE: "deployment-build-image:20200804.01"
 
 cache:
   key:
