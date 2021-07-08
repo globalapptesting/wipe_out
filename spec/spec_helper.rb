@@ -1,10 +1,18 @@
+ENV["RAILS_ENV"] = "test"
+
+if ENV["COVERAGE"]
+  require "simplecov"
+  SimpleCov.start
+end
+
 require_relative "../lib/wipe_out.rb"
+
 require "combustion"
 require "factory_bot"
-require "pg"
+require "sqlite3"
 require "pry"
 
-Combustion.initialize! :active_record
+Combustion.initialize!(:active_record)
 
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|
@@ -22,4 +30,6 @@ RSpec.configure do |config|
   config.before(:suite) do
     FactoryBot.find_definitions
   end
+
+  config.raise_errors_for_deprecations!
 end

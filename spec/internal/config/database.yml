@@ -1,9 +1,5 @@
 test:
-  adapter: postgresql
+  adapter: sqlite3
   encoding: unicode
-  database: <%= ENV["DB_NAME"] || "wipe_out_test" %>
+  database: db/development.sqlite3
   pool: 5
-  username: <%= ENV["POSTGRES_USER"] || "root" %>
-  password: <%= ENV["POSTGRES_PASSWORD"] || "" %>
-  host: <%= ENV["POSTGRES_HOST"] || "127.0.0.1" %>
-  port: <%= ENV["POSTGRES_PORT"] || "5432" %>

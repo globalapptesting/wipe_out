@@ -1,6 +1,6 @@
 # v1.1.1
 
-Fix wipe-out when relation is nil 
+Fix wipe-out when relation is nil
 
 # v1.1.0
 
