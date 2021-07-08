@@ -31,9 +31,11 @@ tests:
     - bundle exec rspec
 
 pages:
+  image: ${AWS_ECR_URL}/${IMAGE}
+  only:
+    - master
   script:
-    - bundle install
-    - bundle exec yard
+    - bin/yard
     - mv doc public
   artifacts:
     paths:
