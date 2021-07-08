@@ -16,7 +16,7 @@ module WipeOut
     end
 
     def wipe_out(*names, strategy: AttributeStrategies::Nullify, &block)
-      strategy = block if block_given?
+      strategy = block if block
       names.each do |name|
         @plan.add_attribute(name, strategy: strategy)
       end

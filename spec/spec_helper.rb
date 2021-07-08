@@ -5,7 +5,7 @@ if ENV["COVERAGE"]
   SimpleCov.start
 end
 
-require_relative "../lib/wipe_out.rb"
+require_relative "../lib/wipe_out"
 
 require "combustion"
 require "factory_bot"
