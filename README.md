@@ -1,9 +1,6 @@
 # WipeOut
 
-Library for removing and clearing data using ActiveRecord.
-
-- [CHANGELOG](./CHANGELOG.md)
-- [GETTING STARTED](./docs/GETTING_STARTED.md)
+Library for removing and clearing data in Rails ActiveRecord models.
 
 ## Installation
 
@@ -13,19 +10,49 @@ Library for removing and clearing data using ActiveRecord.
 gem "wipe_out", "~> 1.0"
 ```
 
-Check newest release at [here](https://gitlab.gatserver.com/global-app-testing/apps/wipe_out/-/tags).
+Check newest release at [here](https://rubygems.org/gems/wipe_out).
 
-## Contributing
+## Usage
 
+Quick example:
 
-Follow the steps below to setup wipe_out locally:
+Given the following model:
 
-  * Make sure you're running on Ruby 3.0.0 or newer
-  * sqlite is installed (required for tests)
+```ruby
+# == Schema Info
+#
+# Table name: users
+#
+#  id                  :integer(11)    not null, primary key
+#  name                :varchar(11)    not null
+#  orders_count        :integer(11)    not null
+class User < ActiveRecord::Base
+end
 
-```bash
-git clone https://github.com/GlobalAppTesting/wipe-out
-cd wipe-out
-bundle install
-./bin/rspec
 ```
+
+We can define custom wipe out plan:
+
+```ruby
+UserWipeOutPlan = WipeOut.build_root_plan(User) do
+  wipe_out :name
+  ignore :orders_count
+end
+```
+
+and execute it:
+
+```ruby
+User.last.then { |user| UserWipeOutPlan.execute(user) }
+```
+
+It will overwrite data inside `name` but leave, `orders_count` untouched.
+
+There is also support for relations and making sure that policies are defined
+for any added columns.
+
+Read more in [getting started](./docs/getting_started.md) doc.
+
+## Contributing && Development
+
+See [development.md](./docs/development.md)

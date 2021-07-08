@@ -29,3 +29,12 @@ tests:
     - size-s
   script:
     - bundle exec rspec
+
+pages:
+  script:
+    - bundle install
+    - bundle exec yard
+    - mv doc public
+  artifacts:
+    paths:
+      - public
