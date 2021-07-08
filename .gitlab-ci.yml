@@ -20,9 +20,8 @@ lint:
   image: ${AWS_ECR_URL}/${IMAGE}
   tags:
     - size-s
-  allow_failure: true
   script:
-    - bundle exec standardrb --format progress
+    - bundle exec standardrb --format progress --no-fix
 
 tests:
   image: ${AWS_ECR_URL}/${IMAGE}

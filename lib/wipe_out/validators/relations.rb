@@ -17,8 +17,8 @@ module WipeOut
       private
 
       def indirect_relation?(relation)
-        [ActiveRecord::Reflection::ThroughReflection, ActiveRecord::Reflection::BelongsToReflection].
-          include?(relation.class)
+        [ActiveRecord::Reflection::ThroughReflection, ActiveRecord::Reflection::BelongsToReflection]
+          .include?(relation.class)
       end
 
       def ignore_relation?(relation)
