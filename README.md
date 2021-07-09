@@ -34,7 +34,7 @@ end
 We can define custom wipe out plan:
 
 ```ruby
-UserWipeOutPlan = WipeOut.build_root_plan(User) do
+UserWipeOutPlan = WipeOut.build_plan(User) do
   wipe_out :name
   ignore :orders_count
 end

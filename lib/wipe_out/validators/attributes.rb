@@ -1,10 +1,8 @@
 module WipeOut
   module Validators
-    class Attributes
-      method_object :plan, :ar_class, :config
-
+    class Attributes < Base
       def call
-        errors = []
+        return [] if plan.destroy?
 
         if missing_attributes.any?
           errors << "#{ar_class.name} plan is missing attributes: #{missing_attributes.map { |name| ":#{name}" }

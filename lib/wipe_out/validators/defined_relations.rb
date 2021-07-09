@@ -1,10 +1,7 @@
 module WipeOut
   module Validators
-    class Relations
-      method_object :plan, :ar_class, :config
-
+    class DefinedRelations < Base
       def call
-        errors = []
         ar_class.reflect_on_all_associations.each do |relation|
           unless indirect_relation?(relation) || ignore_relation?(relation) || plan.relations[relation.name].present?
             errors << "#{ar_class.name} relation is missing: #{relation.name}"

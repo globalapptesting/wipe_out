@@ -30,6 +30,18 @@ tests:
   script:
     - bundle exec rspec
 
+doc:
+  image: ${AWS_ECR_URL}/${IMAGE}
+  except:
+    - master
+  script:
+    - bin/yard
+  artifacts:
+    paths:
+      - doc
+    expire_in: 2d
+
+
 pages:
   image: ${AWS_ECR_URL}/${IMAGE}
   only:
