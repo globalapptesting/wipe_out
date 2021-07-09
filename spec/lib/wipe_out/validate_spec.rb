@@ -1,6 +1,6 @@
-RSpec.describe WipeOut::Validator do
+RSpec.describe WipeOut::Validate do
   let(:root_plan) do
-    WipeOut.build_root_plan(User) do
+    WipeOut.build_plan(User) do
       wipe_out :first_name, :last_name, :access_tokens, :confirmed_at, :sign_in_count, :abc
 
       relation :comments do
@@ -17,10 +17,8 @@ RSpec.describe WipeOut::Validator do
     end
   end
 
-  let(:errors) { described_class.call(root_plan.plan, User, config: root_plan.config) }
-
   it "validates plan" do
-    expect(errors).to eq [
+    expect(root_plan.validation_errors).to eq [
       "User plan is missing attributes: :reset_password_token",
       "User plan has extra attributes: :abc",
       "User relation is missing: dashboard",

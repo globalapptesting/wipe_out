@@ -55,7 +55,7 @@ class Dashboard < ActiveRecord::Base; end
 an example of _Root Plan_ and its _Plan_ is:
 
 ```ruby
-UserWipeOutPlan = WipeOut.build_root_plan(User) do
+UserWipeOutPlan = WipeOut.build_plan(User) do
    # Set nil value by default
    wipe_out :first_name, :last_name
    # Custom strategy
@@ -174,7 +174,7 @@ _Plan_ can skip providing strategy for:
 
 Nested plans can be extracted as independent object. An exemplary plan can be rewritten to:
 ```ruby
-CommentsWipeOutPlan = WipeOut.build_root_plan(Comment) do
+CommentsWipeOutPlan = WipeOut.build_plan(Comment) do
   wipe_out :value, strategy: WipeOut::AttributeStrategies::Randomize.new
 
   relation :resource_files do
@@ -189,7 +189,7 @@ DashboardWipeOutPlan = WipeOut.build_plan do
   end
 end
 
-UserWipeOutPlan = WipeOut.build_root_plan(User) do
+UserWipeOutPlan = WipeOut.build_plan(User) do
   # …
   relation :comments, CommentsWipeOutPlan
   relation :dashboard, DashboardWipeOutPlan
@@ -211,7 +211,7 @@ HasAttachmentsPlan = WipeOut.build_plan do
   wipe_out :attachments_count
 end
 
-WipeOut.build_root_plan(User) do
+WipeOut.build_plan(User) do
   include_plan HasAttachmentsPlan
   relation(:comments) do
     wipe_out :content
@@ -222,7 +222,7 @@ end
 
 is exactly the same as:
 ```ruby
-WipeOut.build_root_plan(User) do
+WipeOut.build_plan(User) do
   relation(:images) { destroy! }
   relation(:videos) { destroy! }
   wipe_out :attachments_count
@@ -255,7 +255,7 @@ to use for a given record.
 
 Example:
 ```ruby
-UserPlan = WipeOut.build_root_plan(User) do
+UserPlan = WipeOut.build_plan(User) do
   normal_plan = WipeOut.build_plan { destroy! }
   vip_plan = WipeOut.build_plan do
     ignore … # do not remove all data yetg
@@ -272,7 +272,7 @@ end
 Plugins are used to define behaviours which are not supported by the
 core library.
 
-Plugins usage can be defined using `plugin` call on the top level inside `WipeOut.build_root_plan` block.
+Plugins usage can be defined using `plugin` call on the top level inside `WipeOut.build_plan` block.
 
 Currently the only hooks available are:
 * `around_each(plan, record)` - called around each entity removal.
@@ -284,12 +284,12 @@ When _Root Plan_ with plugins is nested inside other _Root Plan_ (see "Reusing p
 E.g. in scenario:
 
  ```ruby
-XPlan = WipeOut.build_root_plan(X) do
+XPlan = WipeOut.build_plan(X) do
   plugin PluginX
   wipe_out …
 end
 
-YPlan = WipeOut.build_root_plan(X) do
+YPlan = WipeOut.build_plan(X) do
   relation :x, XPlan
 end
 ```
@@ -308,7 +308,7 @@ end
 
 _Root Plans_ can override global config:
 ```ruby
-WipeOut.build_root_plan(SomeClass) do
+WipeOut.build_plan(SomeClass) do
   config do |config|
     config.ignored_attributes += [:some, :attributes]
   end

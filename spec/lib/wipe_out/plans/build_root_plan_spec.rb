@@ -1,6 +1,6 @@
-RSpec.describe WipeOut, ".build_root_plan" do
+RSpec.describe WipeOut, ".build_plan" do
   let(:root_plan) do
-    described_class.build_root_plan(User) do
+    described_class.build_plan(User) do
       wipe_out :first_name, :last_name
 
       relation :comments do
@@ -13,7 +13,7 @@ RSpec.describe WipeOut, ".build_root_plan" do
     end
   end
 
-  let(:plan) { root_plan.plan }
+  let(:plan) { root_plan }
 
   # rubocop:disable RSpec/MultipleExpectations
   it "builds nested plan" do

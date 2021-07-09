@@ -32,9 +32,7 @@ Gem::Specification.new do |s|
   s.add_dependency("attr_extras", "~> 6.2")
   s.add_dependency("zeitwerk", "~> 2.4.2")
 
-  # only dev dependencies?
-  s.add_dependency("rails", "~> 6.1")
-
+  s.add_development_dependency("rails", "~> 6.1")
   s.add_development_dependency("combustion", "~> 1.3")
   s.add_development_dependency("factory_bot", "~> 6.2")
   s.add_development_dependency("pry", "~> 0.14.1")
@@ -44,4 +42,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency("standard", "~> 1.1.4")
 
   s.add_development_dependency("yard", "~> 0.9")
+  s.add_development_dependency("webrick")
 end

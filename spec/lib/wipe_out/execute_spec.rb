@@ -17,7 +17,7 @@ RSpec.describe WipeOut::Execute do
     comments_plan = self.comments_plan
     dashboard_plan = self.dashboard_plan
 
-    WipeOut.build_root_plan(User) do
+    WipeOut.build_plan(User) do
       wipe_out :last_name, :access_tokens
 
       # Custom strategy
@@ -35,14 +35,12 @@ RSpec.describe WipeOut::Execute do
       before_save do |record|
         record.first_name = "deleted-name"
       end
-    end.plan
+    end
   end
 
   let(:user) { create(:user, :with_comments, :with_dashboard) }
 
-  let(:execute) do
-    described_class.call(plan, user, [])
-  end
+  let(:execute) { plan.execute(user) }
 
   it "saves record" do
     execute
@@ -83,7 +81,7 @@ RSpec.describe WipeOut::Execute do
     it "logs the problem" do
       allow(Rails.logger).to receive(:info)
       execute
-      expect(Rails.logger).to have_received(:info).with(start_with("[wipe_out-invalid-record]"))
+      expect(Rails.logger).to have_received(:info).with(start_with("[WipeOut] RecordInvalid"))
     end
 
     it "saves record" do
@@ -94,7 +92,7 @@ RSpec.describe WipeOut::Execute do
   end
 
   context "with plugins" do
-    plugin_class = Class.new(WipeOut::PluginBase) do
+    plugin_class = Class.new(WipeOut::Plugin) do
       def initialize(spy)
         @spy = spy
       end
@@ -129,7 +127,7 @@ RSpec.describe WipeOut::Execute do
 
       let(:project_component_plan) do
         plugin3 = self.plugin3
-        WipeOut.build_root_plan(User) do
+        WipeOut.build_plan(User) do
           plugins plugin3
           wipe_out :first_name, strategy: WipeOut::AttributeStrategies::Randomize.new
         end
