@@ -11,6 +11,8 @@ require "combustion"
 require "factory_bot"
 require "sqlite3"
 require "pry"
+require "super_diff/rspec"
+require "super_diff/active_support"
 
 Combustion.initialize!(:active_record)
 
