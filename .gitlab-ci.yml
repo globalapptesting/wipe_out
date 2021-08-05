@@ -3,6 +3,7 @@ variables:
   BUNDLE_PATH: "${CI_PROJECT_DIR}/vendor/bundle"
   BUNDLE_JOBS: 4
   BUNDLE_RETRY: 10
+  YARN_CACHE_FOLDER: .yarn
 
 cache:
   key:
@@ -22,6 +23,9 @@ lint:
     - size-s
   script:
     - bundle exec standardrb --format progress --no-fix
+    - yarn global add markdownlint-cli@0.27.1
+    - export PATH="${PATH}:$(yarn global bin)"
+    - markdownlint --config .markdownlint.json -i .yarn -i vendor .
 
 tests:
   image: ${AWS_ECR_URL}/${IMAGE}
@@ -40,7 +44,6 @@ doc:
     paths:
       - doc
     expire_in: 2d
-
 
 pages:
   image: ${AWS_ECR_URL}/${IMAGE}

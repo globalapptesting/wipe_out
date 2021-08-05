@@ -1,4 +1,6 @@
-# v2.0.0
+# Changelog
+
+## v2.0.0
 
 Breaking changes:
 
@@ -7,14 +9,14 @@ Breaking changes:
 * Rename `PluginBase` to `Plugin`
 * Execution by default will call `save!` instead of `save(validate: false)`
 
-# v1.1.1
+## v1.1.1
 
 Fix wipe-out when relation is nil
 
-# v1.1.0
+## v1.1.0
 
 Use underscore in gem name
 
-# v1.0.0
+## v1.0.0
 
 Initial release

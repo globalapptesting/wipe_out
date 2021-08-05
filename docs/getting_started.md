@@ -12,6 +12,7 @@ Relations work as nested _Plans_ and can be nested infinitely.
 _Root Plan_ is a plan that binds _Plan_, Active Record class and other settings.
 
 Given schema:
+
 ```ruby
 create_table "users" do |t|
   t.string "first_name"
@@ -38,6 +39,7 @@ end
 ```
 
 and models
+
 ```ruby
 class User < ActiveRecord::Base
  has_many :comments
@@ -88,28 +90,33 @@ end
 ```
 
 After executing on a record
+
 ```ruby
 record = User.last
 UserWipeOutPlan.execute(record)
 ```
 
 User's:
+
 * `first_name` and `last_name` attributes are set to `nil` value
 * `sign_in_count` is set to `0`
 * `reset_password_token` is randomized
 * `access_tokens` and `confirmed_at` attributes are not changed
 
 User's Comments:
+
 * `value` is randomized
 * Comment's resource_files are all destroyed
 
 User's dashboard:
+
 * `order` attribute is set to `nil`
 * `name` attribute is ignored
 
 ## Validation
 
 _Root Plans_ can be validated against DB schema:
+
 ```ruby
 UserWipeOutPlan.validation_errors
 ```
@@ -128,6 +135,7 @@ has to be marked as ignored with `ignore`.
 `through` and `belongs_to` relations are ignored automatically and they don't have to be ignored manually.
 
 By default these attributes are ignored:
+
 * `id`
 * `created_at`
 * `updated_at`
@@ -135,6 +143,7 @@ By default these attributes are ignored:
 
 Example:
 Given schema
+
 ```ruby
 create_table "users" do |t|
   t.string "first_name"
@@ -144,7 +153,9 @@ create_table "users" do |t|
   t.datetime "updated_at"
 end
 ```
+
 and class
+
 ```ruby
 class User < ActiveRecord::Base
   belongs_to :company
@@ -155,6 +166,7 @@ end
 ```
 
 a _Plan_ to handle removing of this object has to provide strategy or ignore:
+
 * attributes:
   * `first_name`
   * `last_name`
@@ -164,6 +176,7 @@ a _Plan_ to handle removing of this object has to provide strategy or ignore:
   * `dashboard`
 
 _Plan_ can skip providing strategy for:
+
 * attributes `id`, `created_at`, `updated_at` - ignored by default
 * relation `company` - `belongs_to` relation
 * relation `resource_files` - through relation
@@ -173,6 +186,7 @@ _Plan_ can skip providing strategy for:
 #### Extracting
 
 Nested plans can be extracted as independent object. An exemplary plan can be rewritten to:
+
 ```ruby
 CommentsWipeOutPlan = WipeOut.build_plan(Comment) do
   wipe_out :value, strategy: WipeOut::AttributeStrategies::Randomize.new
@@ -202,8 +216,6 @@ end
 _Plan_ can be included to other existing _Plan_. When _Plan_ is included then
 its strategy is copied and extends current definition.
 
-E.g.
-
 ```ruby
 HasAttachmentsPlan = WipeOut.build_plan do
   relation(:images) { destroy! }
@@ -221,6 +233,7 @@ end
 ```
 
 is exactly the same as:
+
 ```ruby
 WipeOut.build_plan(User) do
   relation(:images) { destroy! }
@@ -253,7 +266,6 @@ The list of _Plans_ have to be known upfront to provide static validation.
 During _Root Plan_ execution callback is called determine which _Plan_ from the defined list
 to use for a given record.
 
-Example:
 ```ruby
 UserPlan = WipeOut.build_plan(User) do
   normal_plan = WipeOut.build_plan { destroy! }
@@ -275,6 +287,7 @@ core library.
 Plugins usage can be defined using `plugin` call on the top level inside `WipeOut.build_plan` block.
 
 Currently the only hooks available are:
+
 * `around_each(plan, record)` - called around each entity removal.
 * `around_all(plan)` - called once around root plan execution.
 
@@ -307,6 +320,7 @@ end
 ```
 
 _Root Plans_ can override global config:
+
 ```ruby
 WipeOut.build_plan(SomeClass) do
   config do |config|
@@ -317,4 +331,3 @@ end
 
 Similarly to Plugins, when _Root Plan_ with config override is nested inside other _Root Plan_ (see "Reusing plans")
 then its custom configuration is ignored.
-
