@@ -22,7 +22,7 @@ lint:
   tags:
     - size-s
   script:
-    - bundle exec standardrb --format progress --no-fix
+    - bin/standardrb --format progress --no-fix
     - yarn global add markdownlint-cli@0.27.1
     - export PATH="${PATH}:$(yarn global bin)"
     - markdownlint --config .markdownlint.json -i .yarn -i vendor .
