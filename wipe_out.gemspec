@@ -16,12 +16,12 @@ Gem::Specification.new do |s|
   s.summary = ".. "
   s.description = ".."
   s.license = "internal"
-  s.homepage = "https://github.com/GlobalAppTesting/wipe-out"
+  s.homepage = "https://github.com/GlobalAppTesting/wipe_out"
   s.metadata = {
-    "homepage_uri" => "https://github.com/GlobalAppTesting/wipe-out",
-    "changelog_uri" => "https://github.com/GlobalAppTesting/wipe-out/blob/main/CHANGELOG.md",
-    "source_code_uri" => "https://github.com/GlobalAppTesting/wipe-out",
-    "bug_tracker_uri" => "https://github.com/GlobalAppTesting/wipe-out/issues"
+    "homepage_uri" => "https://github.com/GlobalAppTesting/wipe_out",
+    "changelog_uri" => "https://github.com/GlobalAppTesting/wipe_out/blob/main/CHANGELOG.md",
+    "source_code_uri" => "https://github.com/GlobalAppTesting/wipe_out",
+    "bug_tracker_uri" => "https://github.com/GlobalAppTesting/wipe_out/issues"
   }
 
   s.files =

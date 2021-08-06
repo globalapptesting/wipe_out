@@ -16,8 +16,8 @@ Follow the steps below to setup wipe_out locally:
 * sqlite is installed (required for tests)
 
 ```bash
-git clone https://github.com/GlobalAppTesting/wipe-out
-cd wipe-out
+git clone https://github.com/GlobalAppTesting/wipe_out
+cd wipe_out
 bundle install
 ```
 
