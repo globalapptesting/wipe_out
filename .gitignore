@@ -1,0 +1,7 @@
+*.gem
+Gemfile.lock
+.rubocop-xunit.xml
+spec/internal/log/*
+coverage
+doc
+.yardoc/

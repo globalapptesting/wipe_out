@@ -1,0 +1,6 @@
+--no-private
+--markup=markdown
+--readme=README.md
+--title='WipeOut Documentation'
+--load ./docs/yard_plugin.rb
+'lib/**/*.rb' - '*.md' 'docs/*.md' LICENSE

@@ -1,0 +1,50 @@
+name: CI Suite
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: 3.0
+        bundler-cache: true
+    - run: bin/standardrb --format progress --no-fix
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: 3.0
+        bundler-cache: true
+    - name: NODE SETUP ACTION
+      uses: actions/setup-node@v2
+      with:
+        node-version: '16.x'
+    - run: yarn global add markdownlint-cli@0.27.1
+    - run: export PATH="${PATH}:$(yarn global bin)"
+    - run: markdownlint --config .markdownlint.json -i .yarn -i vendor .
+    - run: bin/yard
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - gemfile: Gemfile
+            ruby: 3.0
+    runs-on: ubuntu-latest
+    steps:
+    - run: echo BUNDLE_GEMFILE=${{ matrix.gemfile }} > $GITHUB_ENV
+    - uses: actions/checkout@v2
+    - uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: ${{ matrix.ruby }}
+        bundler-cache: true
+        bundler: ${{ matrix.bundler || 'default' }}
+    - run: bin/rspec
