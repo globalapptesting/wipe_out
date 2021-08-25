@@ -1,6 +1,6 @@
 # WipeOut
 
-Library for removing and clearing data in Rails ActiveRecord models.
+![Library for removing and clearing data in Rails ActiveRecord models](https://www.globalapptesting.com/hs-fs/hubfs/blog_post_title_image_1-14.jpeg?width=1985&name=blog_post_title_image_1-14.jpeg)
 
 ## Installation
 
