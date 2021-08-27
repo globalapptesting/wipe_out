@@ -2,6 +2,8 @@
 
 ![Library for removing and clearing data in Rails ActiveRecord models](https://www.globalapptesting.com/hs-fs/hubfs/blog_post_title_image_1-14.jpeg?width=1985&name=blog_post_title_image_1-14.jpeg)
 
+Release blog post, [ActiveRecord models: How to remove data in GDPR compliant way](https://www.globalapptesting.com/engineering/activerecord-models-how-to-remove-data-in-gdpr-compliant-way)
+
 ## Installation
 
 1. Add WipeOut to your application's Gemfile:
