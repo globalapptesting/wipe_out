@@ -18,17 +18,20 @@ RSpec.describe WipeOut::Plugins::Logger do
     logged_messages = []
     allow(logger).to receive(:debug) { |log| logged_messages << log }
     user = create(:user, :with_comments)
-    comment = user.comments.first
+    first_comment = user.comments.first
+    second_comment = user.comments.second
     plan.config.logger = logger
 
     plan.execute(user)
 
-    expect(user.comments).to eq([comment])
+    expect(user.comments).to eq([first_comment, second_comment])
     expect(logged_messages).to match([
       "[WipeOut] start plan=Plan(attributes=[:last_name, :access_tokens])",
       "[WipeOut] executing plan=Plan(attributes=[:last_name, :access_tokens]) record_class=User id=#{user.id}",
-      "[WipeOut] executing plan=Plan(attributes=[]) record_class=Comment id=#{comment.id}",
-      "[WipeOut] wiped out plan=Plan(attributes=[]) record_class=Comment id=#{comment.id}",
+      "[WipeOut] executing plan=Plan(attributes=[]) record_class=Comment id=#{first_comment.id}",
+      "[WipeOut] wiped out plan=Plan(attributes=[]) record_class=Comment id=#{first_comment.id}",
+      "[WipeOut] executing plan=Plan(attributes=[]) record_class=Comment id=#{second_comment.id}",
+      "[WipeOut] wiped out plan=Plan(attributes=[]) record_class=Comment id=#{second_comment.id}",
       "[WipeOut] wiped out plan=Plan(attributes=[:last_name, :access_tokens]) record_class=User id=#{user.id}",
       "[WipeOut] completed plan=Plan(attributes=[:last_name, :access_tokens])"
     ])

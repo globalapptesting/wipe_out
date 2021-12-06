@@ -26,7 +26,6 @@ module WipeOut
       end
 
       def subexecution(sub_plan, record)
-        plan.callbacks.each { |callback| sub_plan.add_callback(callback) }
         self.class.new(sub_plan, record, config)
       end
     end

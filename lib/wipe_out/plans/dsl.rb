@@ -72,6 +72,7 @@ module WipeOut
           plan = plan.plan if plan.is_a?(BuiltPlan)
           dsl = Dsl.new(plan)
           dsl.instance_exec(&block) if block.present?
+          @plan.callbacks.each { |callback| plan.add_callback(callback) }
 
           @plan.add_relation(name, dsl.plan)
         end

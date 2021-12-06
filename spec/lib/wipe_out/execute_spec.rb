@@ -201,7 +201,7 @@ RSpec.describe WipeOut::Execute do
 
       aggregate_failures "overwrites content in comments for vip user" do
         expect(vip_user.comments.count).to eq(vip_user.comments.count)
-        expect(vip_user.comments.map(&:value)).to eq(["comment"])
+        expect(vip_user.comments.map(&:value)).to eq(%w[comment comment])
       end
     end
   end
