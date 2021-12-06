@@ -1,6 +1,6 @@
-[![Gem Version](https://badge.fury.io/rb/wipe_out.svg)](https://rubygems.org/gems/wipe_out)
-
 # WipeOut
+
+[![Gem Version](https://badge.fury.io/rb/wipe_out.svg)](https://rubygems.org/gems/wipe_out)
 
 ![Library for removing and clearing data in Rails ActiveRecord models](https://www.globalapptesting.com/hs-fs/hubfs/blog_post_title_image_1-14.jpeg?width=1985&name=blog_post_title_image_1-14.jpeg)
 
