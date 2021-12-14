@@ -5,7 +5,7 @@ FactoryBot.define do
     confirmed_at { Date.new }
 
     trait :with_comments do
-      comments { build_list(:comment, 1) }
+      comments { build_list(:comment, 2) }
     end
 
     trait :with_dashboard do

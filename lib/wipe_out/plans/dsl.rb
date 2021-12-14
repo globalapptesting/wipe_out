@@ -66,12 +66,17 @@ module WipeOut
       # @return [nil]
       def relation(name, plan = nil, plans: nil, &block)
         if plans
+          plans.each do |build_plan|
+            forward_callbacks(@plan, build_plan.plan)
+          end
+
           @plan.add_relation_union(name, plans.map(&:plan), &block)
         else
           plan ||= Plan.new(@plan.config)
           plan = plan.plan if plan.is_a?(BuiltPlan)
           dsl = Dsl.new(plan)
           dsl.instance_exec(&block) if block.present?
+          forward_callbacks(@plan, plan)
 
           @plan.add_relation(name, dsl.plan)
         end
@@ -111,6 +116,11 @@ module WipeOut
       # @!visibility private
       def add_callback(callback)
         plan.add_callback(callback)
+      end
+
+      # @!visibility private
+      def forward_callbacks(source_plan, destination_plan)
+        source_plan.callbacks.each { |callback| destination_plan.add_callback(callback) }
       end
     end
   end
