@@ -1,0 +1,11 @@
+site_name: wipe-out
+site_description: Library for removing and clearing data in Rails ActiveRecord models.
+
+nav:
+  - Introduction: index.md
+  - 'Getting started': getting_started.md
+  - Development: development.md
+  - Releasing: releasing.md
+
+plugins:
+  - techdocs-core
