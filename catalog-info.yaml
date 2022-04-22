@@ -9,6 +9,7 @@ metadata:
       title: Repository
       icon: dashboard
   annotations:
+    backstage.io/techdocs-ref: "."
     gitlab.com/project-slug: "global-app-testing/apps/wipe_out"
     github.com/project-slug: "GlobalAppTesting/wipe_out"
 spec:
