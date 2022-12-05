@@ -31,7 +31,7 @@ Gem::Specification.new do |s|
     end
 
   s.add_dependency("attr_extras", "~> 6.2")
-  s.add_dependency("zeitwerk", "~> 2.4.2")
+  s.add_dependency("zeitwerk", ">= 2.4")
 
   s.add_development_dependency("combustion", "~> 1.3")
   s.add_development_dependency("factory_bot", "~> 6.2")
