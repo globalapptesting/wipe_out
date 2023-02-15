@@ -30,7 +30,7 @@ Gem::Specification.new do |s|
       `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
     end
 
-  s.add_dependency("attr_extras", "~> 6.2")
+  s.add_dependency("attr_extras", ">= 6.0", "< 8.0")
   s.add_dependency("zeitwerk", "~> 2.4.2")
 
   s.add_development_dependency("combustion", "~> 1.3")
