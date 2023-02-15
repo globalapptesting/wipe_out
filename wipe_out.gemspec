@@ -30,7 +30,7 @@ Gem::Specification.new do |s|
       `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
     end
 
-  s.add_dependency("attr_extras", "~> 6.2")
+  s.add_dependency("attr_extras", ">= 6.0", "< 8.0")
   s.add_dependency("zeitwerk", ">= 2.4")
 
   s.add_development_dependency("combustion", "~> 1.3")
@@ -40,7 +40,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency("rspec", "~> 3.10")
   s.add_development_dependency("simplecov", "~> 0.21.1")
   s.add_development_dependency("sqlite3", "~> 1.4.2")
-  s.add_development_dependency("standard", "~> 1.1.4")
+  s.add_development_dependency("standard", "~> 1.24.0")
   s.add_development_dependency("super_diff", "~> 0.6.2")
   s.add_development_dependency("webrick")
   s.add_development_dependency("yard", "~> 0.9")
