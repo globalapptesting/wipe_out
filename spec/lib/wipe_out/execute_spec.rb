@@ -179,7 +179,7 @@ RSpec.describe WipeOut::Execute do
 
       plan = WipeOut.build_plan do
         relation :comments, plans: [comments_plan, vip_comments_plan] do |record|
-          record.user.last_name == "VIP" ? vip_comments_plan : comments_plan
+          (record.user.last_name == "VIP") ? vip_comments_plan : comments_plan
         end
 
         ignore :last_name, :confirmed_at, :dashboard,
