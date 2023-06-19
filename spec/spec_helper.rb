@@ -33,5 +33,9 @@ RSpec.configure do |config|
     FactoryBot.find_definitions
   end
 
+  config.define_derived_metadata do |meta|
+    meta[:aggregate_failures] = meta.fetch(:aggregate_failures, true)
+  end
+
   config.raise_errors_for_deprecations!
 end
