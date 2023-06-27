@@ -14,7 +14,7 @@ RSpec.describe WipeOut::Plugins::Logger do
       end
     end
 
-    it "logs all executions for all records, even from relations", :aggregate_failures do
+    it "logs all executions for all records, even from relations" do
       logger = double(Logger)
       logged_messages = []
       allow(logger).to receive(:debug) { |log| logged_messages << log }
@@ -63,7 +63,7 @@ RSpec.describe WipeOut::Plugins::Logger do
   end
 
   context "when relation has multiple wipe out plans (plans union)" do
-    it "logs all executions for all records, even from relations", :aggregate_failures do
+    it "logs all executions for all records, even from relations" do
       comments_plan = WipeOut.build_plan do
         relation :resource_files do
           on_execute { |execution| execution.record.destroy! }

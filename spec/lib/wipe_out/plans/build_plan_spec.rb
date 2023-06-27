@@ -1,5 +1,5 @@
 RSpec.describe WipeOut, ".build_plan" do
-  it "builds nested plan", :aggregate_failures do
+  it "builds nested plan" do
     built_plan =
       described_class.build_plan do
         wipe_out :first_name, :last_name
