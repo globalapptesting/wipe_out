@@ -31,17 +31,17 @@ Gem::Specification.new do |s|
     end
 
   s.add_dependency("attr_extras", ">= 6.0", "< 8.0")
+  s.add_dependency("observer", "~> 0.1.0")
   s.add_dependency("zeitwerk", ">= 2.4")
 
-  s.add_development_dependency("combustion", "~> 1.3")
-  s.add_development_dependency("factory_bot", "~> 6.2")
-  s.add_development_dependency("pry", "~> 0.14.1")
-  s.add_development_dependency("rails", "~> 6.1")
+  s.add_development_dependency("combustion", "~> 1.5")
+  s.add_development_dependency("factory_bot", "~> 6.5")
+  s.add_development_dependency("rails", "~> 7.0")
   s.add_development_dependency("rspec", "~> 3.10")
   s.add_development_dependency("simplecov", "~> 0.21.1")
-  s.add_development_dependency("sqlite3", "~> 1.4.2")
-  s.add_development_dependency("standard", "~> 1.24.0")
-  s.add_development_dependency("super_diff", "~> 0.6.2")
+  s.add_development_dependency("sqlite3", "~> 2.6")
+  s.add_development_dependency("standard", "~> 1.31")
+  s.add_development_dependency("super_diff", "~> 0.15")
   s.add_development_dependency("webrick")
-  s.add_development_dependency("yard", "~> 0.9")
+  s.add_development_dependency("yard", "~> 0.9.37")
 end

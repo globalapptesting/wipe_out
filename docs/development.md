@@ -12,7 +12,7 @@ So, you want to hack on GraphQL Ruby! Here are some tips for getting started.
 
 Follow the steps below to setup wipe_out locally:
 
-* Make sure you're running on Ruby 3.0.0 or newer
+* Make sure you're running on Ruby 3.3.0 or newer
 * sqlite is installed (required for tests)
 
 ```bash
@@ -26,11 +26,6 @@ bundle install
 ```bash
 ./bin/rspec
 ```
-
-## Debug
-
-By default `pry` is included so feel free to run tests and put `binding.pry`
-wherever you like.
 
 ## Coding guidelines
 
