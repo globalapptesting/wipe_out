@@ -11,7 +11,7 @@ Release blog post, [ActiveRecord models: How to remove data in GDPR compliant wa
 1. Add WipeOut to your application's Gemfile:
 
 ```ruby
-gem "wipe_out", "~> 1.0"
+gem "wipe_out", "~> 1.2"
 ```
 
 Check newest release at [here](https://rubygems.org/gems/wipe_out).
